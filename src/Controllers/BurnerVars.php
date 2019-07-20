@@ -67,20 +67,20 @@ class BurnerVars
         $currDate = strtotime($this->mainDates[0]);
         while ($currDate <= strtotime($this->mainDates[3])) {
             $simpleDateFormat = date("n/j", $currDate);
-            if (date("D", $currDate) == 'Sat') $numSats++;
             if ($currDate == strtotime($this->mainDates[1])) {
                 $ret .= '<option DISABLED > </option><option DISABLED >---BURNING MAN WEEK---</option>';
-                $currStage = '';
+                $currStage = 'Main';
             }
+            if ($currStage == 'Main' && date("D", $currDate) == 'Sat') $numSats++;
             $ret .= '<option value="' . $simpleDateFormat . '" ' 
-                . (($currStage == 'Early') ? 'style="color: #999;"' : '')
+                . (($currStage == 'Main') ? '' : 'style="color: #999;"')
                 . (($simpleDateFormat == $preSel) ? ' SELECTED ' : '') . '>' . date("D n/j", $currDate) 
-                . (($numSats == 2 && date("D", $currDate) == 'Sat') ? ' (Man Burns!)' : '')
-                . (($numSats == 2 && date("D", $currDate) == 'Sun') ? ' (Temple Burns!)' : '')
+                . (($numSats == 2 && date("D", $currDate) == 'Sat') ? ' (Man burns!)' : '')
+                . (($numSats == 2 && date("D", $currDate) == 'Sun') ? ' (Temple burns!)' : '')
                 . '</option>';
             if ($currDate == strtotime($this->mainDates[2])) {
                 $ret .= '<option DISABLED > </option><option DISABLED >---LATE DEPARTURE---</option>';
-                $currStage = 'Early';
+                $currStage = 'Late';
             }
             $currDate = mktime(0, 0, 0, date("n", $currDate), date("j", $currDate)+1, date("Y", $currDate));
         }
